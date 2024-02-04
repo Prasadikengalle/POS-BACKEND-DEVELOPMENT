@@ -16,13 +16,24 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users")
-    ResponseEntity <List<User>> getAllUsers() {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
+    ResponseEntity<?> getAllUsers() {
+
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to get All users");
+        }
+
     }
 
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody User user){
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
+
+        try{
+            return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail to Create the user");
+        }
     }
 
 
