@@ -1,5 +1,6 @@
 package com.ijse.possystembackend.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ijse.possystembackend.entity.Category;
 import com.ijse.possystembackend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,21 +10,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
+@CrossOrigin(origins = "*")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
     @GetMapping("/categories")
-    public ResponseEntity<?> getAllCategories() {
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(categoryService.getAllCategories());
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to get all categories");
+    public ResponseEntity<?>  getAllCategories() {
+
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.getAllCategories());
+
         }
 
-    }
 
     @PostMapping("/categories")
     public ResponseEntity<?> createCategory(@RequestBody Category category){
