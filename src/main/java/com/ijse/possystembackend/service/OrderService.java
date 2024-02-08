@@ -1,5 +1,6 @@
 package com.ijse.possystembackend.service;
 
+import com.ijse.possystembackend.dto.OrderDTO;
 import com.ijse.possystembackend.entity.Order;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ public interface OrderService {
 
     Order getOrderById(Long id);
 
-    Order createOrder(Order order);
+    Order createOrder(OrderDTO orderDTO);
 
 
 }

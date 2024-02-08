@@ -1,5 +1,6 @@
 package com.ijse.possystembackend.controller;
 
+import com.ijse.possystembackend.dto.OrderDTO;
 import com.ijse.possystembackend.entity.Order;
 import com.ijse.possystembackend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,10 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    public ResponseEntity<?> createOrder(@RequestBody Order order){
+    public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO){
 
         try {
-            Order newOrder = orderService.createOrder(order);
+            Order newOrder = orderService.createOrder(orderDTO);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
         } catch (Exception e) {

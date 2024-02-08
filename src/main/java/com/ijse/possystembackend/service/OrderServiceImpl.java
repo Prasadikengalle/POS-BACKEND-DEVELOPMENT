@@ -1,17 +1,28 @@
 package com.ijse.possystembackend.service;
 
+import com.ijse.possystembackend.dto.OrderDTO;
 import com.ijse.possystembackend.entity.Order;
+import com.ijse.possystembackend.entity.Product;
 import com.ijse.possystembackend.repository.OrderRepository;
+import com.ijse.possystembackend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 @Service
 public class OrderServiceImpl implements  OrderService{
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public List<Order> getAllOrders(){
@@ -20,7 +31,35 @@ public class OrderServiceImpl implements  OrderService{
     }
 
     @Override
-    public Order createOrder(Order order){
+    public Order createOrder(OrderDTO orderDTO){
+
+        Order order = new Order();
+
+
+        List<Long> products = orderDTO.getProducts();
+
+        Set<Product> productSet = new HashSet<>();
+
+        order.setTotal(0.0);
+
+        for (Long productId : products) {
+            Product product = productRepository.findById(productId).orElse(null);
+
+            if(product != null && product.getQty() != 0) {
+                productSet.add(product);
+                order.setTotal(order.getTotal()+product.getPrice());
+            }
+
+        }
+
+        Double tax = (order.getTotal()/100)*15;
+
+        order.setTax(tax);
+        order.setOrderTime(LocalDateTime.now());
+        order.setProducts(productSet);
+
+
+
         return orderRepository.save(order);
     }
 
