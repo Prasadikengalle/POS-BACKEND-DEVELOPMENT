@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -21,9 +24,13 @@ public class Product {
 
     private Double price;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "products")
+    private Set<Order> orders = new HashSet<>();
 
 }
